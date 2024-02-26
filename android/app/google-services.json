@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "232445123017",
+    "project_id": "flutter-ecom-uesr-app",
+    "storage_bucket": "flutter-ecom-uesr-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:232445123017:android:ae93fd3f35b8ac15093018",
+        "android_client_info": {
+          "package_name": "com.example.e_com"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbksye86LqG3oXwsar-T65X-K41QujyWY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
