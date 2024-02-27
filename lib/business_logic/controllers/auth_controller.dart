@@ -118,4 +118,4 @@ class AuthController extends GetxController{
     _auth.signOut();
   }
 }
-//Update
+//Updated
