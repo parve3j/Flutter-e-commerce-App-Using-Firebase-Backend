@@ -1,5 +1,7 @@
+import 'package:e_com/business_logic/controllers/auth_controller.dart';
 import 'package:e_com/const/app_colors.dart';
 import 'package:e_com/ui/responsive/size_config.dart';
+import 'package:e_com/ui/routes/routes.dart';
 import 'package:e_com/ui/widgets/custom_button.dart';
 import 'package:e_com/ui/widgets/custom_textform_field.dart';
 import 'package:e_com/ui/widgets/socialmedia_button.dart';
@@ -7,6 +9,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
 class Registration extends StatefulWidget {
   Registration({super.key});
 
@@ -15,14 +18,14 @@ class Registration extends StatefulWidget {
 }
 
 class _RegistrationState extends State<Registration> {
-  TextEditingController _nameController= TextEditingController();
+  TextEditingController _nameController = TextEditingController();
 
-  TextEditingController _emailController= TextEditingController();
+  TextEditingController _emailController = TextEditingController();
 
-  TextEditingController _passwordController= TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
 
-  final _formKey= GlobalKey<FormState>();
-  RxBool _value= false.obs;
+  final _formKey = GlobalKey<FormState>();
+  RxBool _value = false.obs;
 
   @override
   void dispose() {
@@ -36,7 +39,7 @@ class _RegistrationState extends State<Registration> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:Colors.grey.shade300,
+      backgroundColor: Colors.grey.shade300,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -49,47 +52,43 @@ class _RegistrationState extends State<Registration> {
                 autovalidateMode: AutovalidateMode.always,
                 child: Column(
                   children: [
-                    SizedBox(height: 30),
-                    Image.asset('assets/icons/logo.png',
+                    const SizedBox(height: 30),
+                    Image.asset(
+                      'assets/icons/logo.png',
                       width: 40.w,
                     ),
-                    SizedBox(height: 10,),
-                    Text('Sign Up',
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      'Sign Up',
                       style: TextStyle(
-                          fontSize: 18.sp, fontWeight: FontWeight.w600
-                      ),
+                          fontSize: 18.sp, fontWeight: FontWeight.w600),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     customFormField(
-                        TextInputType.name,
-                        _nameController,
-                        context,
-                        'Name',
-                        (val){},
-                      prefixIcon: Icons.person
-                    ),
-                    customFormField(
-                        TextInputType.emailAddress,
-                        _emailController,
-                        context,
-                        'Email',
-                            (val){
-                              if (val.isEmpty) {
-                                return 'this field can\'t be empty';
-                              }
-                              if (!val.contains(RegExp(r'\@'))) {
-                                return 'enter a valid email address';
-                              }
-                        },
-                        prefixIcon: Icons.email_outlined
-                    ),
+                        TextInputType.name, _nameController, context, 'Name',
+                        (val) {
+                      if (val.isEmpty) {
+                        return 'This field cna\'t be empty';
+                      }
+                    }, prefixIcon: Icons.person),
+                    customFormField(TextInputType.emailAddress,
+                        _emailController, context, 'Email', (val) {
+                      if (val.isEmpty) {
+                        return 'this field can\'t be empty';
+                      }
+                      if (!val.contains(RegExp(r'\@'))) {
+                        return 'enter a valid email address';
+                      }
+                    }, prefixIcon: Icons.email_outlined),
                     customFormField(
                       TextInputType.text,
                       _passwordController,
                       context,
                       'Password',
-                          (val){
-                        if(val==null){
+                      (val) {
+                        if (val == null) {
                           return 'This field can\'t be empty';
                         }
                       },
@@ -99,51 +98,53 @@ class _RegistrationState extends State<Registration> {
                     Row(
                       children: [
                         Obx(() => Checkbox(
-                          checkColor: AppColors.mandarinColor,
-                          activeColor: Colors.transparent,
-                          side: const BorderSide(color: AppColors.mandarinColor, width: 2),
-                            value: _value.value,
-                            onChanged: (val){
-                              _value.value=val!;
-                            },
-                        )),
-                        Text.rich(TextSpan(
-                          children: [
-                            TextSpan(
-                              text: 'I accept all the',
-                              style: TextStyle(
-                                color: AppColors.grayColor
-                              ),
+                              checkColor: AppColors.mandarinColor,
+                              activeColor: Colors.transparent,
+                              side: const BorderSide(
+                                  color: AppColors.mandarinColor, width: 2),
+                              value: _value.value,
+                              onChanged: (val) {
+                                _value.value = val!;
+                              },
+                            )),
+                        Text.rich(TextSpan(children: [
+                          const TextSpan(
+                            text: 'I accept all the',
+                            style: TextStyle(color: AppColors.grayColor),
+                          ),
+                          TextSpan(
+                            recognizer: TapGestureRecognizer()..onTap = () {},
+                            text: 'Terms & Condition',
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600,
                             ),
-                            TextSpan(
-                              recognizer: TapGestureRecognizer()..onTap=(){},
-                              text: 'Terms & Condition',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ]
-                        )),
+                          ),
+                        ])),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     SizedBox(
                       width: 200,
                       height: 45,
-                      child: customButton(
-                          'Sign Up',
-                              (){if(_formKey.currentState!.validate() &&
-                              _value.value==true){
-
-                          }
-                          }
-                      ),
+                      child: customButton('Sign Up', () {
+                        if (_formKey.currentState!.validate() &&
+                            _value.value == true) {
+                          Get.find<AuthController>().signUp(
+                            _nameController.text,
+                            _emailController.text,
+                            _passwordController.text,
+                            context,
+                          );
+                        }
+                      }),
                     ),
-                    SizedBox(height: 20,),
-                    Row(
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const Row(
                       children: [
                         Expanded(
                           child: Divider(
@@ -152,7 +153,7 @@ class _RegistrationState extends State<Registration> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          padding: EdgeInsets.symmetric(horizontal: 20),
                           child: Text(' or '),
                         ),
                         Expanded(
@@ -163,34 +164,35 @@ class _RegistrationState extends State<Registration> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SocialMediaButton('assets/icons/facebook.png'),
-                        SizedBox(width: 20,),
+                        const SizedBox(
+                          width: 20,
+                        ),
                         SocialMediaButton('assets/icons/search.png'),
                       ],
                     ),
-                    SizedBox(height: 30),
-                    Text.rich(TextSpan(
-                        children:[
-                          TextSpan(
-                            text: 'Already have an account?',
-                            style: TextStyle(
-                              color: AppColors.grayColor,
-                            ),
-                          ),
-                          TextSpan(
-                              recognizer: TapGestureRecognizer()..onTap=(){},
-                              text: ' Log In',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600,
-                              )
-                          )
-                        ]
-                    ))
+                    const SizedBox(height: 30),
+                    Text.rich(TextSpan(children: [
+                      const TextSpan(
+                        text: 'Already have an account?',
+                        style: TextStyle(
+                          color: AppColors.grayColor,
+                        ),
+                      ),
+                      TextSpan(
+                          recognizer: TapGestureRecognizer()..onTap = () {
+                            Get.offAndToNamed(login);
+                          },
+                          text: ' Log In',
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                          ))
+                    ]))
                   ],
                 ),
               ),

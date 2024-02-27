@@ -1,3 +1,4 @@
+import 'package:e_com/business_logic/controllers/auth_controller.dart';
 import 'package:e_com/const/app_colors.dart';
 import 'package:e_com/ui/responsive/size_config.dart';
 import 'package:e_com/ui/widgets/custom_button.dart';
@@ -7,18 +8,20 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
 class Login extends StatelessWidget {
   Login({super.key});
-  TextEditingController _emailController= TextEditingController();
-  TextEditingController _passwordController= TextEditingController();
 
-  final _formKey= GlobalKey<FormState>();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
   String? value;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:Colors.grey.shade300,
+      backgroundColor: Colors.grey.shade300,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -32,57 +35,51 @@ class Login extends StatelessWidget {
                 child: Column(
                   children: [
                     SizedBox(height: 30),
-                    Image.asset('assets/icons/logo.png',
+                    Image.asset(
+                      'assets/icons/logo.png',
                       width: 40.w,
                     ),
-                    SizedBox(height: 10,),
-                    Text('Log In',
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      'Log In',
                       style: TextStyle(
-                        fontSize: 18.sp, fontWeight: FontWeight.w600
-                      ),
+                          fontSize: 18.sp, fontWeight: FontWeight.w600),
                     ),
                     SizedBox(height: 20),
+                    customFormField(TextInputType.emailAddress,
+                        _emailController, context, 'Email', (val) {
+                      if (val.isEmpty) {
+                        return 'This field can\'t be empty';
+                      }
+                      if (!val.contains(RegExp(r'\@'))) {
+                        return 'Enter a valid email address';
+                      }
+                    }, prefixIcon: Icons.email_outlined),
                     customFormField(
-                        TextInputType.emailAddress,
-                        _emailController,
-                        context,
-                        'Email',
-                        (val){
-                          // if (val.isEmpty) {
-                          //   return 'this field can\'t be empty';
-                          // }
-                          // if (!val.contains(RegExp(r'\@'))) {
-                          //   return 'enter a valid email address';
-                          // }
-                          value=val;
-                    },
-                      prefixIcon: Icons.email_outlined
-                    ),
-                    customFormField(
-                        TextInputType.text,
-                        _passwordController,
-                        context,
-                        'Password',
-                        (val){
-                          if(val==null){
-                            return 'This field can\'t be empty';
-                          }
-                        },
+                      TextInputType.text,
+                      _passwordController,
+                      context,
+                      'Password',
+                      (val) {
+                        if (val == null) {
+                          return 'This field can\'t be empty';
+                        }
+                      },
                       prefixIcon: Icons.remove_red_eye_outlined,
                       obscureText: true,
                     ),
                     Align(
                       alignment: Alignment.centerRight,
                       child: InkWell(
-                        onTap: (){
+                        onTap: () {
                           Get.toNamed('forgetpass');
                         },
                         child: Text(
                           'Forget Password',
                           style: TextStyle(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w500
-                          ),
+                              fontSize: 14.sp, fontWeight: FontWeight.w500),
                         ),
                       ),
                     ),
@@ -94,19 +91,20 @@ class Login extends StatelessWidget {
                       height: 45.h,
                       child: customButton(
                         'Log In',
-                          (){
-                            // if (value==null) {
-                            //   return 'this field can\'t be empty';
-                            // }
-                            // if (!value!.contains(RegExp(r'\@'))) {
-                            //   return 'enter a valid email address';
-                            // }
-                            Get.toNamed('bottomnavbar');
-                          },
+                        () {
+                          if (_formKey.currentState!.validate()) {
+                            Get.find<AuthController>().login(
+                              _emailController.text.trim(),
+                              _passwordController.text.trim(),
+                              context,
+                            );
+                          }
+                        },
                       ),
                     ),
-
-                    SizedBox(height: 20,),
+                    SizedBox(
+                      height: 20,
+                    ),
                     Row(
                       children: [
                         Expanded(
@@ -132,31 +130,31 @@ class Login extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SocialMediaButton('assets/icons/facebook.png'),
-                        SizedBox(width: 20,),
+                        SizedBox(
+                          width: 20,
+                        ),
                         SocialMediaButton('assets/icons/search.png'),
                       ],
                     ),
                     SizedBox(height: 30),
-                    Text.rich(TextSpan(
-                      children:[
-                        TextSpan(
-                          text: 'Don\'t have an account?',
-                          style: TextStyle(
-                            color: AppColors.grayColor,
-                          ),
+                    Text.rich(TextSpan(children: [
+                      TextSpan(
+                        text: 'Don\'t have an account?',
+                        style: TextStyle(
+                          color: AppColors.grayColor,
                         ),
-                        TextSpan(
-                          recognizer: TapGestureRecognizer()..onTap=(){
-                            Get.toNamed('registration');
-                          },
+                      ),
+                      TextSpan(
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Get.toNamed('registration');
+                            },
                           text: ' Sign Up',
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w600,
-                          )
-                        )
-                      ]
-                    ))
+                          ))
+                    ]))
                   ],
                 ),
               ),

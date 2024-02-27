@@ -41,6 +41,11 @@ dependencies:
   google_fonts:
   salomon_bottom_bar:
   firebase_core:
+  firebase_auth:
+  get_storage:
+  cloud_firestore:
+  cached_network_image:
+  flutter_bkash: 
 
 
 dev_dependencies:
